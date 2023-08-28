@@ -1,0 +1,47 @@
+import io from 'socket.io-client';
+import { useState, useEffect } from 'react';
+import { v4 as uuidv4 } from 'uuid';
+
+
+
+const socket = io.connect('http://localhost:5000');
+
+
+ const [userName, setUserName] = useState('');
+   const [room, setRoom] = useState('');
+   const [message, setMessage] = useState('');
+   const [messageList, setMessageList] = useState([]);
+
+   const handleEmit = async () => {
+      if (!userName || !room) {
+         alert('Please fill the form');
+      }
+
+      socket.emit('join_room', room);
+   };
+
+   const handleSendMessage = async () => {
+      if (!message || !room) {
+         alert('Fill the form please');
+      }
+
+      const data = {
+         SenderId: uuidv4(),
+         message,
+         userName,
+         room,
+         date:
+            new Date(Date.now()).getHours() +
+            ':' +
+            new Date(Date.now()).getMinutes(),
+      };
+
+      await socket.emit('send_message', data);
+   };
+
+   useEffect(() => {
+      socket.on('receive_message', (data) => {
+         //  console.log(data);
+         setMessageList((list) => [...list, data]);
+      });
+   }, [socket]);
