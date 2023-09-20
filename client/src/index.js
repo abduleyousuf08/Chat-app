@@ -17,6 +17,11 @@ import {
 
 import store from './store';
 import { Provider } from 'react-redux';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { ChatContextProvider } from './Context/ChatContext';
+
+const queryClient = new QueryClient();
+
 const router = createBrowserRouter(
    createRoutesFromElements(
       <Route path='/' element={<App />}>
@@ -31,9 +36,13 @@ const router = createBrowserRouter(
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
    <React.StrictMode>
-      <Provider store={store}>
-         <RouterProvider router={router} />
-      </Provider>
+      <QueryClientProvider client={queryClient}>
+         <Provider store={store}>
+            <ChatContextProvider>
+               <RouterProvider router={router} />
+            </ChatContextProvider>
+         </Provider>
+      </QueryClientProvider>
    </React.StrictMode>
 );
 

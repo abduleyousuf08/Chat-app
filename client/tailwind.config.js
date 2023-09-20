@@ -7,6 +7,7 @@ module.exports = {
             userName: ['Bricolage Grotesque', ' sans-serif'],
             headerMessage: ['Roboto', 'sans-serif'],
             messages: ['Ubuntu', 'sans-serif'],
+            buttonCreate: ['Skranji', 'cursive'],
          },
       },
    },

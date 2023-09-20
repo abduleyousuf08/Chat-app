@@ -9,7 +9,7 @@ import messageModel from '../model/messageModel.js';
 // ? Todo: @findMyChats -> if there is no previous value , returing start now string value
 
 async function createMessage(req, res) {
-   const { chatId, message } = req.body;
+   const { chatId, messageNewOne } = req.body;
    const { _id } = req.user;
    const senderId = _id.toString(); //Todo: covention of id's type to string
 
@@ -18,17 +18,17 @@ async function createMessage(req, res) {
          return res.status(400).json('Error occured at sending message');
       }
 
-      if (message.trim().length === '') {
+      if (messageNewOne?.trim().length === '') {
          return res.status(400).json('write some message');
       }
 
-      const messagePosted = await messageModel.create({
+      const message = await messageModel.create({
          chatId,
-         message,
+         message: messageNewOne,
          senderId,
       });
 
-      res.status(200).json({ message: 'Message posted', messagePosted });
+      res.status(200).json({ data: message });
    } catch (error) {
       console.log(error);
    }
@@ -54,4 +54,18 @@ async function findMessages(req, res) {
    }
 }
 
-export { createMessage, findMessages };
+async function deleteMessages(req, res) {
+   const chatId = req.params.id;
+   try {
+      if (!chatId) {
+         return res.status(400).json('Provide the chatId');
+      }
+      await messageModel.deleteMany({ chatId: chatId });
+      res.status(200).json('Messages are deleted');
+   } catch (error) {
+      console.log(error);
+      res.status(400).json('Couldn"t delete messages');
+   }
+}
+
+export { createMessage, findMessages, deleteMessages };

@@ -1,48 +1,60 @@
 import '../App.css';
-import { useFindMyChatQuery } from '../Slices/chatApiSlice';
-import { useFindMessageQuery } from '../Slices/messageApiSlice';
+import { useContext, useEffect, useState } from 'react';
+import { ChatContext } from '../Context/ChatContext';
+import axios from 'axios';
 import { useSelector } from 'react-redux';
-import { useState } from 'react';
 
 //? COMPONENTS
 import Chat from '../components/Chat';
 import SideBar from '../components/SideBar';
 import UsersList from '../components/UsersList';
+import Profile from '../components/Profile';
+import ShowMyProfile from '../components/showMyProfile';
+import NewUserList from '../components/NewUserList';
 
+//
 function ChatApp() {
-   const [chat, setChat] = useState('');
-   const [userData, setUserData] = useState('');
    const { userInfo } = useSelector((state) => state.auth);
+   const { isShowUserProfile, isShowMyProfile, currentChat, showAddUser } =
+      useContext(ChatContext);
+   const [userData, setUserData] = useState(null);
+   const [isUserDataLoading, setIsUserDataLoading] = useState(false);
 
-   function getChatId(chat, data) {
-      setUserData(data);
-      setChat(chat);
-   }
-   const { data, isLoading, isError } = useFindMyChatQuery(userInfo._id);
-   const {
-      data: messages,
-      isLoading: loading,
-      isError: error,
-   } = useFindMessageQuery(chat._id);
+   const freindId = currentChat?.members.find(
+      (friend) => friend !== userInfo?._id
+   );
 
-   if (isLoading) {
-      return <div>Loading....</div>;
-   } else if (isError) {
-      return <div>Error</div>;
-   }
+   useEffect(() => {
+      async function getUserData() {
+         if (freindId) {
+            setIsUserDataLoading(true);
+            try {
+               const res = await axios.get(`/auth/users/${freindId}`);
+               setUserData(res.data.data);
+               setIsUserDataLoading(false);
+            } catch (error) {
+               console.log(error);
+               setIsUserDataLoading(false);
+            }
+         }
+      }
 
-   if (loading) {
-      return <div>Loading....</div>;
-   } else if (error) {
-      return <div>Error</div>;
-   }
+      getUserData();
+   }, [freindId, currentChat]);
 
    return (
       <div className='flex'>
          <SideBar />
-         <UsersList data={data} getChatId={getChatId} />
+         {showAddUser ? <NewUserList /> : <UsersList />}
+
          <p className='border pl-0 border-l-gray-200  '></p>
-         <Chat messages={messages} userData={userData} />
+         <Chat />
+         <p className='border pl-0 border-r-gray-200  '></p>
+         {isShowUserProfile && !isUserDataLoading ? (
+            <Profile userData={userData} />
+         ) : (
+            isShowMyProfile && <ShowMyProfile />
+         )}
       </div>
    );
 }

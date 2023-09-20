@@ -2,6 +2,7 @@ import validator from 'email-validator';
 import userModel from '../model/userModel.js';
 import bcrypt from 'bcryptjs';
 import generateToken from '../utils/generateToken.js';
+import uploadToCloudinary from '../middlewares/uploadToCloudinary.js';
 
 // Todo ?...
 //? Todo: Login this will allow the user to login their account and generate a token to save the cookie
@@ -13,14 +14,56 @@ import generateToken from '../utils/generateToken.js';
 
 //Todo: Login  Account
 async function login(req, res) {
-   const { email, password } = req.body;
+   const { LoginEmail, LoginPassword } = req.body;
+
    try {
-      if (!email || !password) {
+      if (!LoginEmail || !LoginPassword) {
          return res.status(400).json('Email & Password are required');
       }
 
-      if (password.length < 6) {
-         return res.status(400).json('Enter strong Password');
+      const validateEmail = validator.validate(LoginEmail);
+
+      if (!validateEmail) {
+         return res.status(401).json('Enter valid Email');
+      }
+
+      const user = await userModel.findOne({ email: LoginEmail });
+
+      if (!user) {
+         return res.status(401).json('Incorrect Email or Password ');
+      }
+
+      const comparedPasswords = await bcrypt.compare(
+         LoginPassword,
+         user.password
+      );
+
+      if (!comparedPasswords) {
+         return res.status(401).json(' Incorrect Email or Password');
+      }
+
+      generateToken(res, user._id);
+
+      res.status(200).json({
+         _id: user._id,
+         name: user.firstName + ' ' + user.lastName,
+         email: user.email,
+         bio: user.bio,
+         profile: user.profile,
+      });
+   } catch (error) {
+      console.log(error);
+   }
+}
+
+//Todo: create Account
+
+const createAccount = async (req, res) => {
+   const { firstName, lastName, email, password } = req.body;
+
+   try {
+      if (!firstName || !lastName || !email || !password) {
+         return res.status(400).json('Please fill the fields');
       }
 
       const validateEmail = validator.validate(email);
@@ -31,27 +74,36 @@ async function login(req, res) {
 
       const user = await userModel.findOne({ email });
 
-      if (!user) {
-         return res.status(401).json('Incorrect Email or Password ');
+      if (user) {
+         return res.status(401).json('This Email is taken already !!');
       }
 
-      const comparedPasswords = bcrypt.compare(password, user.password);
-
-      if (!comparedPasswords) {
-         return res.status(401).json(' Incorrect Email or Password');
+      if (password.length < 6) {
+         return res.status(401).json('Use Strong password');
       }
 
-      generateToken(res, user._id);
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      const userCreated = await userModel.create({
+         firstName,
+         lastName,
+         email,
+         password: hashedPassword,
+      });
+
+      generateToken(res, userCreated._id);
 
       res.json({
-         _id: user._id,
-         name: user.name,
-         email: user.email,
+         _id: userCreated._id,
+         name: userCreated.firstName + ' ' + userCreated.lastName,
+         email: userCreated.email,
+         bio: userCreated.bio,
+         profile: userCreated.profile,
       });
    } catch (error) {
       console.log(error);
    }
-}
+};
 
 //Todo: Logout Account
 
@@ -72,9 +124,10 @@ const getUserProfile = async (req, res) => {
    if (user) {
       res.json({
          _id: user._id,
-         name: user.name,
+         name: user.firstName + ' ' + user.lastName,
          email: user.email,
          bio: user.bio,
+         profile: user.profile,
       });
    } else {
       res.status(400).json('Un authorized');
@@ -84,16 +137,17 @@ const getUserProfile = async (req, res) => {
 //Todo: Update Profile
 
 const updateUserProfile = async (req, res) => {
-   const { name, email, password, bio } = req.body;
+   const { firstName, lastName, email, password, bio } = req.body;
 
-   if (!name && !email && !password && !bio) {
+   if (!firstName && !lastName && !email && !password && !bio && !req.file) {
       return res.status(400).json('Provide some value to update');
    }
 
    const user = await userModel.findById(req.user._id);
 
    if (user) {
-      user.name = name || user.name;
+      user.firstName = firstName || user.firstName;
+      user.lastName = lastName || user.lastName;
       user.email = email || user.email;
       user.bio = bio || user.bio;
 
@@ -101,24 +155,23 @@ const updateUserProfile = async (req, res) => {
          user.password = bcrypt.genSalt(10, password) || user.password;
       }
 
+      if (req.file) {
+         const uploadedImage = await uploadToCloudinary(req.file);
+         user.profile = uploadedImage || user.profile;
+      }
+
       const userUpdated = await user.save();
 
-      res.status(200).json({
-         Message: 'SUCCESSFULLY UPDATED',
-         user: {
-            _id: userUpdated._id,
-            name: userUpdated.name,
-            email: userUpdated.email,
-            bio: userUpdated.bio,
-         },
+      res.json({
+         _id: userUpdated._id,
+         name: userUpdated.firstName + ' ' + userUpdated.lastName,
+         email: userUpdated.email,
+         bio: userUpdated.bio,
+         profile: userUpdated.profile,
       });
    } else {
       return res.status(400).json('User Not found');
    }
-};
-
-const getFriends = (req, res) => {
-   res.status(200).json('Hello from updateUserProfile ');
 };
 
 const findUser = async (req, res) => {
@@ -132,11 +185,30 @@ const findUser = async (req, res) => {
    }
 };
 
+// Add a new controller function to search for users by name
+const searchUsersByName = async (req, res) => {
+   try {
+      const { name } = req.query;
+      const users = await userModel.find({
+         $or: [
+            { firstName: { $regex: name, $options: 'i' } },
+            { lastName: { $regex: name, $options: 'i' } },
+         ],
+      });
+
+      res.json(users);
+   } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Server Error' });
+   }
+};
+
 export {
    login,
    logout,
    getUserProfile,
    updateUserProfile,
-   getFriends,
    findUser,
+   createAccount,
+   searchUsersByName,
 };

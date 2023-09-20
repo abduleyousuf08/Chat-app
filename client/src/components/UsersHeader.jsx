@@ -1,11 +1,27 @@
 import { BsThreeDots } from 'react-icons/bs';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 //? COMPONENTS
 import DropDownList from './DropDownList';
 
 function UsersHeader() {
    const [listShow, setListShow] = useState(false);
+   const dropdownRef = useRef(null);
+
+   useEffect(() => {
+      function handleClickOutside(event) {
+         if (
+            dropdownRef.current &&
+            !dropdownRef.current.contains(event.target)
+         ) {
+            setListShow(false);
+         }
+      }
+
+      document.addEventListener('mousedown', handleClickOutside);
+      return () =>
+         document.removeEventListener('mousedown', handleClickOutside);
+   }, []);
 
    return (
       <div>
@@ -14,7 +30,7 @@ function UsersHeader() {
                Messages
             </h1>
 
-            <div>
+            <div ref={dropdownRef}>
                <BsThreeDots
                   size={22}
                   className='cursor-pointer'

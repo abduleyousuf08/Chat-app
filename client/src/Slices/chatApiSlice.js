@@ -8,7 +8,7 @@ const chatApiSlice = apiSlice.injectEndpoints({
             url: `/chat/find-my-chats/${id}`,
             method: 'GET',
          }),
-
+         invalidatesTags: ['Chat'],
          keepUnusedDataFor: 5,
       }),
    }),

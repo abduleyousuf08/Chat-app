@@ -1,5 +1,6 @@
 import chatModel from '../model/chatModel.js';
 import userModel from '../model/userModel.js';
+import messageModel from '../model/messageModel.js';
 
 // Todo: @CreateChat API
 // ? Todo: @createChat ->  createChat using their id's memebers
@@ -25,11 +26,11 @@ async function createChat(req, res) {
 
    try {
       if (!firstId || !secondId) {
-         return res.status(401).json('Members are required to create a chat');
+         return res.status(401).json('Choose a member to chat');
       }
 
       if (firstId === secondId) {
-         return res.status(401).json('Members id can not be same ');
+         return res.status(401).json('You can not chat yourself');
       }
 
       const previousChat = await chatModel.find({
@@ -37,21 +38,16 @@ async function createChat(req, res) {
       });
 
       if (previousChat.length > 0) {
-         return res.status(201).json(previousChat);
+         return res.status(400).json('This chat is already exist');
       }
-
-      const user = await userModel
-         .findOne({ _id: secondId })
-         .select('-password');
 
       const chatCreated = await chatModel.create({
          members: memeber,
       });
 
-      res.status(201).json({ chatCreated, user });
+      res.status(200).json({ chat: chatCreated });
    } catch (error) {
       console.log(error);
-      // res.status(400).json(error);
    }
 }
 
@@ -59,11 +55,20 @@ async function findMyChats(req, res) {
    const id = req.params.id;
 
    try {
-      const chats = await chatModel
-         .find({ members: { $in: [id] } })
-         .populate('chatMessages', 'message');
+      const chats = await chatModel.find({ members: { $in: [id] } });
 
-      res.status(200).json({ data: chats });
+      const chatDataWithLastMessage = await Promise.all(
+         chats.map(async (chat) => {
+            const lastMessage = await messageModel
+               .findOne({ chatId: chat._id })
+               .sort({ createdAt: -1 })
+               .select('message');
+
+            return { chat, lastMessage };
+         })
+      );
+
+      res.status(200).json({ chats: chatDataWithLastMessage });
    } catch (error) {
       console.log(error);
    }
@@ -90,4 +95,19 @@ async function findChat(req, res) {
    }
 }
 
-export { createChat, findChat, findMyChats };
+async function deleteChat(req, res) {
+   const chatId = req.params.chatId;
+   console.log(chatId);
+   try {
+      if (!chatId) {
+         return res.status(404).json('Provide the chat Id');
+      }
+      await chatModel.findByIdAndDelete({ _id: chatId });
+      res.status(201).json('Deleted successfully');
+   } catch (error) {
+      console.log(error);
+      res.status(400).json('Error deleting chat');
+   }
+}
+
+export { createChat, findChat, findMyChats, deleteChat };

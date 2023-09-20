@@ -23,13 +23,18 @@ import messageRoutes from './routes/messageRoutes.js';
 const app = express();
 app.use(cors());
 
+//Todo: set uping the socket io server and express server
 const server = createServer(app);
+const io = new Server(8090, {
+   cors: '*',
+});
 
+//Todo:express middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-//*Routes Use
+//Todo: Routes of our API
 app.use('/auth', userRoutes);
 app.use('/chat', chatRoutes);
 app.use('/message', messageRoutes);
