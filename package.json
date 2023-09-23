@@ -2,15 +2,15 @@
    "name": "whatsappclone",
    "version": "1.0.0",
    "type": "module",
-   "description": "This will be upskilling a bi-direction communication or real time systems senario",
+   "description": "This will be upskilling a bi-direction communication or real-time systems scenario",
    "main": "index.js",
    "scripts": {
       "server": "nodemon server/index.js",
       "client": "npm start --prefix client",
       "socket": "npm run socket --prefix socket",
       "dev": "concurrently \"npm run server \" \"npm run client \" \"npm run socket\" ",
-      "data:import": "node server/seader",
-      "data:destroy": "node server/seader -d",
+      "data:import": "node server/seeder",
+      "data:destroy": "node server/seeder -d",
       "build": "npm install && npm install --prefix client && npm run build --prefix client && npm run build-socket",
       "build-socket": "npm install --prefix socket && npm run build --prefix socket",
       "test": "echo \"Error: no test specified\" && exit 1"
