@@ -3,7 +3,7 @@ import React from 'react';
 const CustomAlert = ({ title, onCancel, message, onConfirm }) => {
    return (
       <div className='fixed inset-0 flex items-center justify-center z-50 '>
-         <div className='w-2/5 h-1/4 bg-[#1a212d] text-white rounded-lg p-8 shadow-md'>
+         <div className='w-2/5 2xl:h-1/4 h-68 bg-[#1a212d] text-white rounded-lg p-8 shadow-md'>
             <h2 className='text-2xl font-semibold mb-4'>{title}</h2>
             <p className='text-white mb-6'>{message}</p>
             <div className='flex justify-end mt-16'>

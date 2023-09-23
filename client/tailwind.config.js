@@ -8,6 +8,15 @@ module.exports = {
             headerMessage: ['Roboto', 'sans-serif'],
             messages: ['Ubuntu', 'sans-serif'],
             buttonCreate: ['Skranji', 'cursive'],
+            animation: {
+               flip: 'flip 0.5s',
+            },
+            keyframes: {
+               flip: {
+                  '0%, 100%': { transform: 'rotateY(0deg)' },
+                  '50%': { transform: 'rotateY(180deg)' },
+               },
+            },
          },
       },
    },

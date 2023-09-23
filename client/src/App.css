@@ -11,3 +11,70 @@
 *::-webkit-scrollbar {
    width: 15px;
 }
+
+@keyframes bounce {
+   0%,
+   100% {
+      transform: translateY(0);
+   }
+   50% {
+      transform: translateY(-10px);
+   }
+}
+
+/* Hide the default checkbox */
+.custom-checkbox input[type='checkbox'] {
+   display: none;
+}
+
+/* Style the custom checkbox */
+.custom-checkbox .custom-checkbox-label::before {
+   content: '';
+   display: inline-block;
+   width: 1.5rem;
+   height: 1.5rem;
+   background-color: #f00; /* Red background color */
+   border-radius: 0.375rem; /* Rounded corners */
+   border: 1px solid #000;
+   vertical-align: middle;
+   cursor: pointer;
+}
+
+/* Style for checked state */
+.custom-checkbox
+   input[type='checkbox']:checked
+   + .custom-checkbox-label::before {
+   background-color: #001d1e; /* Green background color when checked */
+}
+
+/* Hide default checkbox visually but leave accessible */
+.custom-checkbox .custom-checkbox-label::before {
+   content: '';
+   display: inline-block;
+   width: 1.5rem;
+   height: 1.5rem;
+   background: white;
+   border: 1px solid #000;
+   border-radius: 0.375rem;
+   transform: translateY(-0.125rem);
+}
+
+@keyframes typing {
+   0% {
+      width: 0;
+   }
+   100% {
+      width: 100%;
+   }
+}
+
+.animate-typing {
+   display: inline-block;
+   overflow: hidden;
+   white-space: nowrap;
+   animation: typing 6s steps(40, end) infinite;
+}
+
+.font-serif {
+   font-family: 'Your Font Family', serif; /* Replace 'Your Font Family' with your desired font */
+}

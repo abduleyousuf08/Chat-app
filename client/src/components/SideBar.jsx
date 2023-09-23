@@ -120,15 +120,15 @@ function SideBar() {
       <div
          className={
             isShowMyProfile || isShowUserProfile
-               ? 'bg-[#1a212d] inline-block text-white h-screen w-52 overflow-y-scroll  overflow-x-hidden '
+               ? 'bg-[#1a212d] inline-block text-white h-screen 2xl:w-60 w-64 overflow-y-scroll  overflow-x-hidden '
                : 'bg-[#1a212d] inline-block text-white h-screen w-80 overflow-y-scroll  overflow-x-hidden '
          }
       >
          <Link to='/'>
-            <img src={logo4} alt='' width={80} className='2xl:mt-4 ' />
+            <img src={logo4} alt='' className='w-24 h-24  2xl:w-24 2xl:h-24' />
          </Link>
 
-         <div className='pl-8 mt-10 2xl:mt-20'>
+         <div className='pl-8 mt-4 2xl:mt-10'>
             {isShowUserProfile || isShowMyProfile ? (
                <>
                   <ul className='mb-6'>
@@ -153,7 +153,7 @@ function SideBar() {
                <>
                   <ul className='mb-6'>
                      <li
-                        className='mb-4 cursor-pointer'
+                        className='mb-4 cursor-pointer font-headerMessage'
                         ref={(element) => (liRefs.current[0] = element)}
                         onClick={() => handleClick(0)}
                      >
@@ -163,7 +163,7 @@ function SideBar() {
                         </span>
                      </li>
                      <li
-                        className='mb-4 cursor-pointer'
+                        className='mb-4 cursor-pointer font-headerMessage'
                         ref={(element) => (liRefs.current[1] = element)}
                         onClick={() => handleClick(1)}
                      >
@@ -200,14 +200,14 @@ function SideBar() {
                <>
                   <ul className='mb-6'>
                      <li
-                        className='mb-4 cursor-pointer'
+                        className='mb-4 cursor-pointer  font-headerMessage'
                         ref={(element) => (liRefs.current[2] = element)}
                         onClick={() => handleClick(2)}
                      >
                         Story
                      </li>
                      <li
-                        className='mb-4 cursor-pointer'
+                        className='mb-4 cursor-pointer  font-headerMessage'
                         ref={(element) => (liRefs.current[3] = element)}
                         onClick={() => handleClick(3)}
                      >
@@ -221,7 +221,7 @@ function SideBar() {
             )}
             {isShowMyProfile || isShowUserProfile ? (
                <>
-                  <ul className='mb-36 2xl:mb-96'>
+                  <ul className='mb-28 2xl:mb-96'>
                      <li
                         className='mb-4 cursor-pointer'
                         ref={(element) => (liRefs.current[4] = element)}
@@ -240,16 +240,16 @@ function SideBar() {
                </>
             ) : (
                <>
-                  <ul className='mb-36 2xl:mb-96'>
+                  <ul className='mb-28 2xl:mb-96'>
                      <li
-                        className='mb-4 cursor-pointer'
+                        className='mb-4 cursor-pointer  font-headerMessage'
                         ref={(element) => (liRefs.current[4] = element)}
                         onClick={() => handleClick(4)}
                      >
                         Call
                      </li>
                      <li
-                        className='mb-4 cursor-pointer'
+                        className='mb-4 cursor-pointer  font-headerMessage'
                         ref={(element) => (liRefs.current[7] = element)}
                         onClick={() => handleClick(7)}
                      >
@@ -315,14 +315,14 @@ function SideBar() {
                <>
                   <ul>
                      <li
-                        className='mb-4 cursor-pointer '
+                        className='mb-4 cursor-pointer   font-headerMessage'
                         ref={(element) => (liRefs.current[5] = element)}
                         onClick={() => handleClick(5)}
                      >
                         Settings
                      </li>
                      <li
-                        className='cursor-pointer'
+                        className='cursor-pointer  font-headerMessage'
                         ref={(element) => (liRefs.current[6] = element)}
                         onClick={() => {
                            handleClick(6);

@@ -239,7 +239,7 @@ export function ChatContextProvider({ children }) {
          toast.success('Chat created');
       } catch (error) {
          setIsUserChatLoading(false);
-         toast.success(error.response.data || 'Chat error');
+         toast.warning(error.response.data || 'Chat error');
          console.log(error);
       }
    }

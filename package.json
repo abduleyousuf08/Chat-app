@@ -7,7 +7,8 @@
    "scripts": {
       "server": "nodemon server/index.js",
       "client": "npm start --prefix client",
-      "dev": "concurrently \"npm run server \" \"npm run client \"",
+      "socket": "npm run socket --prefix socket",
+      "dev": "concurrently \"npm run server \" \"npm run client \" \"npm run socket\" ",
       "data:import": "node server/seader",
       "data:destroy": "node server/seader -d",
       "test": "echo \"Error: no test specified\" && exit 1"
