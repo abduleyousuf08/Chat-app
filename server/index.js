@@ -39,7 +39,7 @@ app.use('/chat', chatRoutes);
 app.use('/message', messageRoutes);
 
 const io = new Server({
-   cors: 'http://localhost:3000',
+   cors: '*',
 });
 
 let onlineUsers = [];
