@@ -40,6 +40,7 @@ io.on('connection', (socket) => {
 
    //Disconnecting user and removing from the online users
    socket.on('disconnect', () => {
+      console.log('user discounted' + socket.id);
       onlineUsers = onlineUsers.filter((user) => user.socketId !== socket.id);
       io.emit('getOnlineUsers', onlineUsers);
    });
