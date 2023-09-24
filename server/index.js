@@ -13,7 +13,7 @@ import { Server } from 'socket.io';
 
 import cors from 'cors';
 
-const PORT = 5000 || 8000;
+const PORT = 5000;
 
 connectDB();
 
