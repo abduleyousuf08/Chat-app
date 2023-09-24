@@ -1,7 +1,8 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useContext, useState } from 'react';
 import { GrFormClose } from 'react-icons/gr';
-import { LuEdit2 } from 'react-icons/lu';
+import { FiEdit2 } from 'react-icons/fi';
+
 import {
    useLogoutMutation,
    useUpdateUserMutation,
@@ -197,7 +198,7 @@ function ShowMyProfile() {
                            }}
                         />
                      </form>
-                     <LuEdit2
+                     <FiEdit2
                         className='ml-2 cursor-pointer text-[#4baed0]'
                         size={20}
                         color=''
@@ -210,7 +211,7 @@ function ShowMyProfile() {
                </div>
                <h1 className='flex items-center  justify-between font-uls text-xl'>
                   About{' '}
-                  <LuEdit2
+                  <FiEdit2
                      className='mr-28 cursor-pointer text-[#4baed0] font-bold'
                      size={20}
                      color='#4baed0'
