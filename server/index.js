@@ -27,7 +27,11 @@ app.use(cors());
 
 //Todo: set uping the socket io server and express server
 const httpServer = createServer(app);
-const io = new Server(httpServer, { cors: '*' });
+const io = new Server(httpServer, {
+   cors: {
+      origin: 'https://talkwave-lw7b.onrender.com',
+   },
+});
 
 //Todo:express middlewares
 app.use(express.json());

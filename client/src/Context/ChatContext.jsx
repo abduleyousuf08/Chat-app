@@ -27,7 +27,7 @@ export function ChatContextProvider({ children }) {
 
    //*Socket Implementations
    useEffect(() => {
-      const newSocket = io('http://localhost:5000');
+      const newSocket = io('https://talkwave-lw7b.onrender.com');
       setSocket(newSocket);
 
       return () => {
