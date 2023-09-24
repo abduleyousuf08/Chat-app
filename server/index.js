@@ -1,3 +1,5 @@
+import path from 'path';
+
 import connectDB from './db.config.js';
 
 import express from 'express';
@@ -39,9 +41,21 @@ app.use('/auth', userRoutes);
 app.use('/chat', chatRoutes);
 app.use('/message', messageRoutes);
 
-app.get('/', (req, res) => {
-   res.send('Hello iam from server side ');
-});
+const __dirname = path.resolve();
+
+if (process.env.NODE_ENV === 'production') {
+   //set static folder
+   app.use(express.static(path.join(__dirname, '/client/build')));
+
+   //any route that is not API will be redirected to index.html
+   app.get('*', (req, res) => {
+      res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+   });
+} else {
+   app.get('/', (req, res) => {
+      res.send('api is running....');
+   });
+}
 
 server.listen(PORT, () => {
    console.log(`Server is running on: ${PORT}`);
