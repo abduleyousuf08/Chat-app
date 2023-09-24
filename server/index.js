@@ -26,7 +26,8 @@ const app = express();
 app.use(cors());
 
 //Todo: set uping the socket io server and express server
-const server = createServer(app);
+const httpServer = createServer(app);
+const io = new Server(httpServer, { cors: '*' });
 
 //Todo:express middlewares
 app.use(express.json());
@@ -37,10 +38,6 @@ app.use(cookieParser());
 app.use('/auth', userRoutes);
 app.use('/chat', chatRoutes);
 app.use('/message', messageRoutes);
-
-const io = new Server({
-   cors: '*',
-});
 
 let onlineUsers = [];
 
@@ -84,8 +81,6 @@ io.on('connection', (socket) => {
    });
 });
 
-io.listen(8000);
-
 const __dirname = path.resolve();
 
 if (process.env.NODE_ENV === 'production') {
@@ -102,6 +97,6 @@ if (process.env.NODE_ENV === 'production') {
    });
 }
 
-server.listen(PORT, () => {
+httpServer.listen(PORT, () => {
    console.log(`Server is running on: ${PORT}`);
 });
