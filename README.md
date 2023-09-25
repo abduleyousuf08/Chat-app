@@ -31,7 +31,7 @@ TalkWave is an innovative communication chat app that focuses on making messages
 ## Getting Started
 To get started with TalkWave, follow the [Live Link](https://talkwave-lw7b.onrender.com/) and explore the code on our GitHub repository.
 
-[GitHub Repo]([https://github.com/your-username/TalkWave](https://github.com/abduleyousuf08/Chat-app))
+[Github repo ]([https://talkwave-lw7b.onrender.com/](https://github.com/abduleyousuf08/Chat-app)) 
 
 Feel free to contribute, explore, or simply learn from our open-source journey. Let's make waves together! 🌊
 
