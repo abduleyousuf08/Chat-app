@@ -1,6 +1,8 @@
 
-![combined (1)](https://github.com/abduleyousuf08/Chat-app/assets/114812664/c9fa3884-4060-4094-9862-85d91f0bdc5b)
+![imgonline-com-ua-twotoone-XVdccFIMYXnppoR](https://github.com/abduleyousuf08/Chat-app/assets/114812664/1cbba64b-d13f-4c44-a258-2b613272c8d5)
 
+
+![imgonline-com-ua-twotoone-cmv6CXqyuCtqWOjW](https://github.com/abduleyousuf08/Chat-app/assets/114812664/1945844c-eca8-4b45-9da2-d836fe34120f)
 
 
 # TalkWave 🌊
