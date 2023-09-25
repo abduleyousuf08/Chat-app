@@ -1,5 +1,4 @@
 import chatModel from '../model/chatModel.js';
-import userModel from '../model/userModel.js';
 import messageModel from '../model/messageModel.js';
 
 // Todo: @CreateChat API
