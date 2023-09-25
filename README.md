@@ -1,3 +1,7 @@
+![combined1](https://github.com/abduleyousuf08/Chat-app/client/src/assets/combined (1).png)
+
+
+
 # TalkWave 🌊
 
 ## Introduction
