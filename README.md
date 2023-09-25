@@ -26,12 +26,12 @@ TalkWave is a communication chat app where messages make waves. Dive into a worl
 - Bcrypt.js
 
 ## Project Description
-TalkWave is an innovative communication chat app that focuses on making messages more than just words—they become waves of expression. It's a versatile platform built with modern technologies, including React, Node.js, and MongoDB, to provide real-time connections and an immersive messaging experience. Join us in making waves through coding and communication!
+TalkWave is an innovative communication chat app that focuses on making messages more than just words—they become waves of expression. It's a versatile platform built with modern technologies, including React, Node.js, and MongoDB, to provide real-time connections and an immersive messaging experience. Join TalkWave in making waves through coding and communication!
 
 ## Getting Started
-To get started with TalkWave, follow the [Live Link](https://talkwave-lw7b.onrender.com/) and explore the code on our GitHub repository.
+To get started with TalkWave, follow the [Live Link](https://talkwave-lw7b.onrender.com/) and explore the code on my GitHub repository.
 
-[![GitHub Repo]]([https://github.com/your-username/TalkWave](https://github.com/abduleyousuf08/Chat-app))
 
-Feel free to contribute, explore, or simply learn from our open-source journey. Let's make waves together! 🌊
+
+Feel free to contribute, explore, or simply learn from my open-source journey. Let's make waves together! 🌊
 
